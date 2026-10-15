@@ -85,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="TapGo NFC Transit Demo"
+        android:text="TouchOn Transit Demo"
         android:textColor="#9AA6B5"
         android:textSize="12sp"
         android:gravity="center" />

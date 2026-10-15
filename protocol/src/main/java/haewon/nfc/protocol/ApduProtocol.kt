@@ -28,7 +28,7 @@ object ApduProtocol {
     )
 
     // 데모용 가상 카드 ID
-    const val CARD_ID = "TAPGO-0001"
+    const val CARD_ID = "TOUCHON-0001"
 
     // 데이터 뒤에 정상 응답 코드(9000)를 붙임
     fun response(data: ByteArray): ByteArray {

@@ -55,7 +55,7 @@ class NfcReaderManager(
                     connection.transceive(P.SELECT_AID)
 
                 if (!selectResponse.contentEquals(P.SUCCESS)) {
-                    onError("TapGo 카드 선택 실패")
+                    onError("TouchOn 카드 선택 실패")
                     return
                 }
 
