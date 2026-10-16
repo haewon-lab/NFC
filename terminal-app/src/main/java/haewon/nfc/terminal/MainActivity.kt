@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import haewon.nfc.protocol.ApduProtocol
 import java.util.concurrent.Executors
 
 class MainActivity : Activity() {
@@ -18,6 +19,10 @@ class MainActivity : Activity() {
     private lateinit var nfcStateText: TextView
     private lateinit var terminalStateText: TextView
     private lateinit var testButton: Button
+
+    // 잔액조회
+    private lateinit var balanceButton: Button
+    private lateinit var balanceResultText: TextView
 
     private val executor = Executors.newSingleThreadExecutor()
     private var processing = false
@@ -34,6 +39,9 @@ class MainActivity : Activity() {
         nfcStateText = findViewById(R.id.tvNfcState)
         terminalStateText = findViewById(R.id.tvTerminalState)
         testButton = findViewById(R.id.btnTestTap)
+
+        balanceButton = findViewById(R.id.btnCheckBalance)
+        balanceResultText = findViewById(R.id.tvBalanceResult)
 
         showWaiting()
 
@@ -55,6 +63,10 @@ class MainActivity : Activity() {
 
         testButton.setOnClickListener {
             requestTap("TOUCHON-0001")
+        }
+
+        balanceButton.setOnClickListener {
+            requestCardBalance(ApduProtocol.CARD_ID)
         }
     }
 
@@ -157,6 +169,31 @@ class MainActivity : Activity() {
         cardIdText.visibility = View.GONE
         nfcStateText.text = "ERROR"
         terminalStateText.text = "단말기 상태  ·  오류 발생"
+    }
+
+    private fun requestCardBalance(cardId: String) {
+        balanceButton.isEnabled = false
+        balanceResultText.text = "잔액 조회 중..."
+
+        executor.execute {
+            try {
+                val result = TransitApiClient.getCardBalance(cardId)
+
+                runOnUiThread {
+                    balanceResultText.text =
+                        "현재 잔액: %,d원".format(result.balance)
+
+                    balanceButton.isEnabled = true
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    balanceResultText.text =
+                        e.message ?: "잔액 조회에 실패했습니다."
+
+                    balanceButton.isEnabled = true
+                }
+            }
+        }
     }
 
     override fun onResume() {
