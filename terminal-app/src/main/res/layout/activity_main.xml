@@ -1,93 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:background="#F4F7FB"
-    android:padding="24dp">
-
-    <TextView
-        android:id="@+id/tvLogo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Haewon NFC"
-        android:textColor="#173A75"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginTop="56dp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="스마트 교통카드 단말기"
-        android:textColor="#69788E"
-        android:textSize="14sp"
-        android:gravity="center"
-        android:layout_marginTop="8dp" />
+    android:fillViewport="true"
+    android:background="#EEF3FA">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
         android:orientation="vertical"
-        android:gravity="center"
-        android:padding="32dp"
-        android:background="@drawable/bg_terminal_card">
+        android:padding="24dp">
 
+        <!-- Header -->
         <TextView
-            android:id="@+id/tvNfcIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="◎"
-            android:textColor="#2463D3"
-            android:textSize="72sp"
-            android:gravity="center" />
-
-        <TextView
-            android:id="@+id/tvStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="NFC 카드를 태그해주세요"
-            android:textColor="#172B4D"
-            android:textSize="22sp"
+            android:text="TOUCHON"
+            android:textColor="#173A75"
+            android:textSize="32sp"
             android:textStyle="bold"
-            android:gravity="center"
             android:layout_marginTop="24dp" />
 
         <TextView
-            android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="휴대폰 뒷면에 카드를 가까이 대주세요"
-            android:textColor="#69788E"
-            android:textSize="14sp"
+            android:text="SMART TRANSIT TERMINAL"
+            android:textColor="#6B7B91"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp" />
+
+        <!-- Main card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:gravity="center"
-            android:layout_marginTop="12dp" />
+            android:padding="28dp"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/bg_terminal_card">
+
+            <TextView
+                android:id="@+id/tvNfcIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="◎"
+                android:textSize="76sp"
+                android:textColor="#2463D3" />
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="카드를 태그해주세요"
+                android:textColor="#172B4D"
+                android:textSize="23sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="휴대폰 뒷면에 교통카드를 가까이 대주세요"
+                android:textColor="#6B7B91"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_marginTop="12dp" />
+
+            <TextView
+                android:id="@+id/tvCardId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#2463D3"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginTop="24dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvNfcState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="NFC READY"
+                android:textColor="#2463D3"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="#EAF2FF"
+                android:padding="14dp"
+                android:layout_marginTop="28dp" />
+
+        </LinearLayout>
+
+        <!-- Terminal information -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_terminal_card">
+
+            <TextView
+                android:id="@+id/tvTerminalState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="단말기 상태  ·  정상 대기 중"
+                android:textColor="#172B4D"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="결제 방식  ·  NFC 교통카드"
+                android:textColor="#6B7B91"
+                android:textSize="14sp"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+
+        <!-- Development test -->
+        <Button
+            android:id="@+id/btnTestTap"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="28dp"
+            android:text="개발용 승차 테스트"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:backgroundTint="#2463D3" />
 
         <TextView
-            android:id="@+id/tvCardId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="#2463D3"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:text="TOUCHON TRANSIT DEMO"
+            android:textColor="#8D9BAE"
+            android:textSize="11sp"
             android:gravity="center"
-            android:layout_marginTop="24dp"
-            android:visibility="gone" />
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="24dp" />
 
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="TouchOn Transit Demo"
-        android:textColor="#9AA6B5"
-        android:textSize="12sp"
-        android:gravity="center" />
-
-</LinearLayout>
+</ScrollView>
