@@ -153,10 +153,15 @@ object TransitApiClient {
         }
     }
 
-    fun getHistory(): List<TransitHistoryItem> {
-        val connection = java.net.URL(
-            "$BASE_URL/api/transit/history"
-        ).openConnection() as java.net.HttpURLConnection
+    fun getHistory(cardId: String): List<TransitHistoryItem> {
+        val encodedCardId = java.net.URLEncoder.encode(
+            cardId,
+            "UTF-8"
+        )
+
+        val connection = URL(
+            "$BASE_URL/api/transit/cards/$encodedCardId/history"
+        ).openConnection() as HttpURLConnection
 
         try {
             connection.requestMethod = "GET"

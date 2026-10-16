@@ -213,7 +213,7 @@ class MainActivity : Activity() {
 
         executor.execute {
             try {
-                val history = TransitApiClient.getHistory()
+                val history = TransitApiClient.getHistory(ApduProtocol.CARD_ID)
 
                 val resultText = if (history.isEmpty()) {
                     "거래 내역이 없습니다."
