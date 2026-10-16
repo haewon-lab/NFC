@@ -20,9 +20,13 @@ class MainActivity : Activity() {
     private lateinit var terminalStateText: TextView
     private lateinit var testButton: Button
 
-    // 잔액조회
+    // 잔액 조회
     private lateinit var balanceButton: Button
     private lateinit var balanceResultText: TextView
+
+    // 거래내역 조회
+    private lateinit var historyButton: Button
+    private lateinit var historyResultText: TextView
 
     private val executor = Executors.newSingleThreadExecutor()
     private var processing = false
@@ -42,6 +46,9 @@ class MainActivity : Activity() {
 
         balanceButton = findViewById(R.id.btnCheckBalance)
         balanceResultText = findViewById(R.id.tvBalanceResult)
+
+        historyButton = findViewById(R.id.btnCheckHistory)
+        historyResultText = findViewById(R.id.tvHistoryResult)
 
         showWaiting()
 
@@ -67,6 +74,10 @@ class MainActivity : Activity() {
 
         balanceButton.setOnClickListener {
             requestCardBalance(ApduProtocol.CARD_ID)
+        }
+
+        historyButton.setOnClickListener {
+            requestHistory()
         }
     }
 
@@ -191,6 +202,58 @@ class MainActivity : Activity() {
                         e.message ?: "잔액 조회에 실패했습니다."
 
                     balanceButton.isEnabled = true
+                }
+            }
+        }
+    }
+
+    private fun requestHistory() {
+        historyButton.isEnabled = false
+        historyResultText.text = "거래 내역 조회 중..."
+
+        executor.execute {
+            try {
+                val history = TransitApiClient.getHistory()
+
+                val resultText = if (history.isEmpty()) {
+                    "거래 내역이 없습니다."
+                } else {
+                    history.joinToString("\n\n") { item ->
+
+                        val typeText = when (item.transactionType) {
+                            "TAP" -> "승차"
+                            "CHARGE" -> "충전"
+                            else -> "기타"
+                        }
+
+                        val amountText = when {
+                            !item.success -> "0원"
+                            item.transactionType == "TAP" ->
+                                "-%,d원".format(item.amount)
+                            item.transactionType == "CHARGE" ->
+                                "+%,d원".format(item.amount)
+                            else -> "%,d원".format(item.amount)
+                        }
+
+                        """
+                    [$typeText] $amountText
+                    일시: ${item.timestamp.replace("T", " ")}
+                    잔액: ${"%,d".format(item.balance)}원
+                    결과: ${item.message}
+                    """.trimIndent()
+                    }
+                }
+
+                runOnUiThread {
+                    historyResultText.text = resultText
+                    historyButton.isEnabled = true
+                }
+
+            } catch (e: Exception) {
+                runOnUiThread {
+                    historyResultText.text =
+                        e.message ?: "거래 내역 조회에 실패했습니다."
+                    historyButton.isEnabled = true
                 }
             }
         }
